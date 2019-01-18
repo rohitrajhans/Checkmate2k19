@@ -1,0 +1,43 @@
+
+body {
+    margin: 0%;
+    background-color: lightblue;
+    box-sizing: border-box;
+}
+#road {
+    background-color: brown;
+    width: 100%;
+    height: 20vh;
+    margin: 0px;
+    padding: 0PX;
+    position: fixed;
+    bottom: 0%;
+}
+
+#mario {
+    background-color: green;
+    height: 15vh;
+    width: 4%;
+    z-index: 500;
+    position: fixed;
+    bottom: 20vh;
+    left: 25%;
+    transition: bottom .3s, left .4s;
+}
+
+.supoort,.onscreen{
+    background-color: brown;
+    height: 5vh;
+    width: 15%;
+    transition: bottom .3s, left .4s;
+}
+#block1{
+    position: fixed;
+    left: 30%;
+    bottom: 35vh;
+}
+#block2 {
+    position: fixed;
+    left: 45%;
+    bottom: 40vh; 
+}
