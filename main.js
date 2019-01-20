@@ -33,7 +33,23 @@ function moveUp(e) {
     e = e || window.event;
     if (e.keyCode == '38') {
         // up arrow
-        
+        var flag = 0;
+        jump_start: {
+            for(var ii = block.length - 1; ii >  -1; --ii)      //ascending order
+            {
+                for(var temp = 0; temp < 26; temp++)
+                {
+                    if(getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") + temp > getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + temp < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh"))
+                    {
+                        mario.style.bottom = getValue(block[ii],"bottom","vh") - getValue(mario,"height","vh") +  "vh";
+                        flag = 1;
+                        break jump_start;
+                    }
+                }
+            }
+        }
+        if(flag ==0) {mario.style.bottom = getValue(mario,"bottom","vh") + 25 + "vh"} ;
+    }
     setTimeout(function(){
         if(stay() != -1) //supported
         {
@@ -59,23 +75,7 @@ function moveSide(e)
 
     if (e.keyCode == '37') {
            // left arrow
-        var flag = 0;
-        jump_start: {
-            for(var ii = block.length - 1; ii >  -1; --ii)      //ascending order
-            {
-                for(var temp = 0; temp < 26; temp++)
-                {
-                    if(getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") + temp > getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + temp < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh"))
-                    {
-                        mario.style.bottom = getValue(block[ii],"bottom","vh") - getValue(mario,"height","vh") +  "vh";
-                        flag = 1;
-                        break jump_start;
-                    }
-                }
-            }
-        }
-        if(flag ==0) {mario.style.bottom = getValue(mario,"bottom","vh") + 25 + "vh"} ;
-       for(var ii = 0; ii < block.length; ii++)
+        for(var ii = 0; ii < block.length; ii++)
         {
             block[ii].style.left = getValue(block[ii],"left","%") + 5 + "%";
         }
