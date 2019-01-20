@@ -17,7 +17,7 @@ body {
 #mario {
     background-color: green;
     height: 15vh;
-    width: 4%;
+    width: 5%;
     z-index: 500;
     position: fixed;
     bottom: 20vh;
@@ -25,7 +25,7 @@ body {
     transition: bottom .3s, left .4s;
 }
 
-.supoort,.onscreen{
+.support,.onscreen{
     background-color: brown;
     height: 5vh;
     width: 15%;
@@ -38,6 +38,6 @@ body {
 }
 #block2 {
     position: fixed;
-    left: 45%;
+    left: 35%;
     bottom: 40vh; 
 }
