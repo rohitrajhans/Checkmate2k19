@@ -21,7 +21,7 @@ var block = Array.prototype.slice.call(block_left).sort(function(a,b){
 function stay() {
     for(var ii = 0; ii < block.length; ii++)
     {
-        if(getValue(mario,"bottom","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") &&  getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%"))
+        if(getValue(mario,"bottom","vh") >= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") &&  getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%"))
         {   
             return ii;          // checks  in descending order
         }
