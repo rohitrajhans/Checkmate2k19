@@ -41,3 +41,15 @@ body {
     left: 35%;
     bottom: 40vh; 
 }
+#block3 {
+    position: fixed;
+    left: 50%;
+    bottom: 22vh;
+}
+#top-line {
+    position: fixed;
+    bottom: 85vh;
+    width: 8000%;
+    background-color: lightblue;        
+    /* keep bg same as body or make this the top wall in mario*/
+}
