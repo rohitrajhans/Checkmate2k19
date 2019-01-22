@@ -47,7 +47,7 @@
 			display: none;
 		}
 		.questionBox {
-			font-family: 'VT323',Arial,Sans-serif;
+			font-family: "VT323",Arial,Sans-serif;
 			position: absolute;
 			left:10vw;
 			top: 10vh;
@@ -105,7 +105,7 @@
 		.submitButton {
 			background-color: black;
 			color: white;
-			font-family: 'VT323',Arial,Sans-serif;
+			font-family: "VT323",Arial,Sans-serif;
 			font-size: 20px;
 
 		}
