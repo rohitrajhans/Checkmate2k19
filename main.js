@@ -93,24 +93,62 @@ function check_right()
 }
 
 
+function check_left()
+{
+    for(var ii = block.length - 1; ii >= 0; --ii)
+     {
+        var b_right = getValue(block[ii],"left","%") + getValue(block[ii],"width","%") + 5;
+
+        if(getValue(mario,"left","%")  <= b_right && getValue(mario,"left","%") > b_right - getValue(block[ii],"width","%"))
+            
+            {
+                
+                if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh")) ||
+                ( getValue(mario,"bottom","vh") < getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh")) ||
+                ( getValue(mario,"bottom","vh")  < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block[ii],"bottom","vh")))
+                return ii;
+            }
+     }
+     return -1;
+
+}
+
+
 
 function moveSide(e)
 
 {
 
-    if (e.keyCode == '37') {
+        if (e.keyCode == '37') {
 
            // left arrow
+           var x = 5, flag = 0 ;
 
         for(var ii = 0; ii < block.length; ii++)
 
         {
+             if(!flag)
+            {
+                var test = check_left( );
 
-            block[ii].style.left = getValue(block[ii],"left","%") + 5 + "%";
+                if(test != -1)
+                {                    
+                    x = getValue(mario,"left","%") - getValue(block[test],"left","%") - getValue(block[test],"width","%");
+                    flag = 1;
+                }
 
+            }
+            if(flag) break;
         }
 
+         for(var ii = 0; ii < block.length; ii++)
+         {
+            block[ii].style.left = getValue(block[ii],"left","%") + x + "%";
+         }
+        
     }
+
+    
 
     else if (e.keyCode == '39') {
 
@@ -127,15 +165,19 @@ function moveSide(e)
                 if(test != -1)
                 {
                     x = getValue(block[test],"left","%") - getValue(mario,"left","%") - getValue(mario,"width","%");
+                    flag = 1;
                 }
 
             }  
-            
 
-            block[ii].style.left = getValue(block[ii],"left","%") - x + "%";
-            flag = 1;
+            if(flag) break;
+         }
 
+        for(var ii = 0; ii < block.length; ii++)
+        {
+             block[ii].style.left = getValue(block[ii],"left","%") - x + "%";
         }
+
 
     }
 
