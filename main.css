@@ -29,7 +29,7 @@ body {
     background-color: brown;
     height: 5vh;
     width: 15%;
-    transition: bottom .3s, left .4s;
+    transition: bottom 3s;
 }
 #block1{
     position: fixed;

@@ -20,14 +20,36 @@ function getValue(element, property, units)
 function stay() {
     for(var ii = 0; ii < block.length; ii++)
     {
-        if(getValue(mario,"bottom","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") &&  getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%"))
+        if(getValue(mario,"bottom","vh") >= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") &&  getValue(mario,"left","%") < getValue(block[ii],"left","%") + getValue(block[ii],"width","%") && getValue(mario,"left","%") + getValue(mario,"width","%") > getValue(block[ii],"left","%"))
         {   
             return ii;          // checks  in descending order
         }
     } 
     return -1;
 }
+var speed = 1;
+var pixelx = 0;
+var direction = 1;  // not used rn
+var key_left = false;
+var key_right = false;
+function handleKeyDown(event)
+{
+    if (event.keyCode == 37) 
+        key_left = true;
+    else if (event.keyCode == 39)
+        key_right = true;
+    moveSide();
+}
 
+function handleKeyUp(event)
+{
+    if (event.keyCode == 37) 
+        key_left = false;
+    else if (event.keyCode == 39)
+        key_right = false;
+    moveSide();
+}
+    
 function moveUp(e) {
     e = e || window.event;
     if (e.keyCode == '38') {
@@ -69,58 +91,83 @@ function moveDown(e)
         else mario.style.bottom = "20vh";
     }
 }
-function moveSide(e)
-{
 
-    if (e.keyCode == '37') {
-           // left arrow
-        var move_by = 5;
-        left_start: {
-            for(var ii = block_left.length -1; ii > -1; --ii) {   //right -> left order 
-                for(var kk = getValue(mario,"bottom","vh"); kk < getValue(mario,"bottom","vh") + getValue(mario,"height","vh"); ++kk)
-                {
-                    if(kk < getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh")
-                    && kk > getValue(block_left[ii],"bottom","vh") && getValue(mario,"left","%") > getValue(block_left[ii],"left","%"))
-                    {
-                        move_by = getValue(mario,"left","%") - getValue(block_left[ii],"left","%") - getValue(block_left[ii],"width","%");
-                        if (move_by > 5){move_by = 5};
-                        break left_start;
-                    }
-                } 
-            }
+
+function check_right()
+{
+    for(var ii = block.length - 1; ii >= 0; --ii)
+    {
+        var b_left = getValue(block[ii],"left","%") - speed;
+
+        if(getValue(mario,"left","%") + getValue(mario,"width","%") > b_left && getValue(mario,"left","%") + getValue(mario,"width","%") < b_left + getValue(block[ii],"width","%"))   
+        {
+            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") <= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") >= getValue(block[ii],"bottom","vh")) ||
+            ( getValue(mario,"bottom","vh") <= getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh")) ||
+            ( getValue(mario,"bottom","vh")  <= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block[ii],"bottom","vh")))
+                return ii;
         }
-        for(var ii = block_left.length - 1; ii >  -1; --ii) {
-            block_left[ii].style.left = getValue(block_left[ii],"left","%") + move_by + "%";
-        }             
     }
-    else if (e.keyCode == '39') {
-        // right arrow
-        var move_by = 5;
-        right_start: {
-            for(var ii = 0; ii < block_left.length; ++ii) {   //left -> right order 
-                for(var kk = getValue(mario,"bottom","vh"); kk < getValue(mario,"bottom","vh") + getValue(mario,"height","vh"); ++kk)
-                {
-                    if(kk < getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh")
-                    && kk > getValue(block_left[ii],"bottom","vh") && getValue(mario,"left","%") + getValue(mario,"width","%") < getValue(block_left[ii],"left","%") + getValue(mario,"width","%"))
-                    {
-                        move_by = - getValue(mario,"left","%") - getValue(mario,"width","%") + getValue(block_left[ii],"left","%");
-                        if (move_by > 5){move_by = 5};
-                        break right_start;
-                    }
-                } 
-            }
-        }
-        for(var ii = block_left.length - 1; ii >  -1; --ii) {
-            block_left[ii].style.left = getValue(block_left[ii],"left","%") - move_by + "%";
-        }
-    }    
+    return -1;
 }
+
+
+function check_left()
+{
+    for(var ii = block.length - 1; ii >= 0; --ii)
+    {
+        var b_right = getValue(block[ii],"left","%") + getValue(block[ii],"width","%") + speed;
+
+        if(getValue(mario,"left","%")  <= b_right && getValue(mario,"left","%") >= b_right - getValue(block[ii],"width","%"))
+        { 
+            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh")) ||
+            ( getValue(mario,"bottom","vh") < getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh")) ||
+            ( getValue(mario,"bottom","vh")  < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block[ii],"bottom","vh")))
+                return ii;
+        }
+    }
+    return -1;
+
+}
+
+
+
+function moveSide()
+{
+    if (key_left == true) {
+        // left arrow
+        if(check_left() == -1)
+        {   
+            pixelx += speed;  
+        }
+        else pixelx += getValue(mario,"left","%") - getValue(block[check_left()],"left","%") - getValue(block[check_left()],"width","%");
+        for(var ii = 0; ii < block.length; ii++)
+        {   
+            block[ii].style.left = getValue(block[ii],"left","%") + pixelx + "%";
+        }
+        pixelx = 0;
+    }
+
+    else if (key_right == true) {
+        // right arrow
+        if(check_right() == -1)
+        {
+            pixelx += speed;
+        }
+        else pixelx +=  getValue(block[check_right()],"left","%") - getValue(mario,"left","%") - getValue(mario,"width","%");
+        for(var ii = 0; ii < block.length; ii++)
+        {
+           block[ii].style.left = getValue(block[ii],"left","%") - pixelx + "%";
+        }
+        pixelx = 0;
+    }
+}
+
 
     window.addEventListener("keydown",moveUp);
     window.addEventListener("keydown",moveDown);
-    window.addEventListener("keydown",moveSide);
+    window.addEventListener("keydown",handleKeyDown, true);
+    window.addEventListener("keyup",handleKeyUp, true);
     if(stay() != -1) {
         mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
     }
     else mario.style.bottom = "20vh";
-   
