@@ -50,6 +50,21 @@ function handleKeyUp(event)
     moveSide();
 }
     
+function onb()  //checks if on block and moves char down if reqd
+{
+     if(stay() != -1) 
+
+        {       
+
+            mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
+
+        }
+
+        else { mario.style.bottom = "20vh";}
+
+}
+
+
 function moveUp(e) {
     e = e || window.event;
     if (e.keyCode == '38') {
@@ -70,15 +85,26 @@ function moveUp(e) {
             }
         }
         if(flag ==0) {mario.style.bottom = getValue(mario,"bottom","vh") + 25 + "vh";};
+        
+        setTimeout(function () {
+            
+            window.removeEventListener("keydown",moveSide);
+            
+        },280);
+
+
+       setTimeout(onb,285); //down movement of jump
+        
+
+        setTimeout(function () {
+            
+            window.addEventListener("keydown",moveSide);
+            
+        },485);        
 
     }
-    setTimeout(function(){
-        if(stay() != -1) //supported
-        {
-            mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
-        }
-        else {mario.style.bottom = "20vh";}
-    },285);
+    
+  setTimeout(onb,485);
 }
 function moveDown(e)
 {
