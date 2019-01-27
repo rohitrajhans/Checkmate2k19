@@ -53,13 +53,9 @@ function handleKeyUp(event)
 function onb()  //checks if on block and moves char down if reqd
 {
      if(stay() != -1) 
-
         {       
-
             mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
-
         }
-
         else { mario.style.bottom = "20vh";}
 
 }
@@ -87,23 +83,15 @@ function moveUp(e) {
         if(flag ==0) {mario.style.bottom = getValue(mario,"bottom","vh") + 25 + "vh";};
         
         setTimeout(function () {
-            
-            window.removeEventListener("keydown",moveSide);
-            
+            window.removeEventListener("keydown",handleKeyUp);
+            window.removeEventListener("keyup",handleKeyUp);
         },280);
-
-
-       setTimeout(onb,285); //down movement of jump
-        
-
+        setTimeout(onb,285); //down movement of jump
         setTimeout(function () {
-            
-            window.addEventListener("keydown",moveSide);
-            
+            window.addEventListener("keydown",handleKeyUp);
+            window.addEventListener("keyup",handleKeyUp);
         },485);        
-
     }
-    
   setTimeout(onb,485);
 }
 function moveDown(e)
@@ -187,12 +175,10 @@ function moveSide()
         pixelx = 0;
     }
 }
-
-
     window.addEventListener("keydown",moveUp);
     window.addEventListener("keydown",moveDown);
-    window.addEventListener("keydown",handleKeyDown, true);
-    window.addEventListener("keyup",handleKeyUp, true);
+    window.addEventListener("keydown",handleKeyDown);
+    window.addEventListener("keyup",handleKeyUp);
     if(stay() != -1) {
         mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
     }
