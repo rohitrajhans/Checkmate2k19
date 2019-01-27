@@ -52,12 +52,11 @@ function handleKeyUp(event)
     
 function onb()  //checks if on block and moves char down if reqd
 {
-     if(stay() != -1) 
-        {       
-            mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
-        }
-        else { mario.style.bottom = "20vh";}
-
+    if(stay() != -1) 
+    {       
+        mario.style.bottom = getValue(block[stay()],"bottom","vh") + getValue(block[stay()],"height","vh") + "vh";
+    }
+    else { mario.style.bottom = "20vh";}
 }
 
 
@@ -109,15 +108,15 @@ function moveDown(e)
 
 function check_right()
 {
-    for(var ii = block.length - 1; ii >= 0; --ii)
+    for(var ii = block_left.length - 1; ii >= 0; --ii)
     {
-        var b_left = getValue(block[ii],"left","%") - speed;
+        var b_left = getValue(block_left[ii],"left","%") - speed;
 
-        if(getValue(mario,"left","%") + getValue(mario,"width","%") > b_left && getValue(mario,"left","%") + getValue(mario,"width","%") < b_left + getValue(block[ii],"width","%"))   
+        if(getValue(mario,"left","%") + getValue(mario,"width","%") > b_left && getValue(mario,"left","%") + getValue(mario,"width","%") < b_left + getValue(block_left[ii],"width","%"))   
         {
-            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") <= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") >= getValue(block[ii],"bottom","vh")) ||
-            ( getValue(mario,"bottom","vh") <= getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh")) ||
-            ( getValue(mario,"bottom","vh")  <= getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block[ii],"bottom","vh")))
+            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") <= getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") >= getValue(block_left[ii],"bottom","vh")) ||
+            ( getValue(mario,"bottom","vh") <= getValue(block_left[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh")) ||
+            ( getValue(mario,"bottom","vh")  <= getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block_left[ii],"bottom","vh")))
                 return ii;
         }
     }
@@ -127,15 +126,15 @@ function check_right()
 
 function check_left()
 {
-    for(var ii = block.length - 1; ii >= 0; --ii)
+    for(var ii = block_left.length - 1; ii >= 0; --ii)
     {
-        var b_right = getValue(block[ii],"left","%") + getValue(block[ii],"width","%") + speed;
+        var b_right = getValue(block_left[ii],"left","%") + getValue(block_left[ii],"width","%") + speed;
 
-        if(getValue(mario,"left","%")  <= b_right && getValue(mario,"left","%") >= b_right - getValue(block[ii],"width","%"))
+        if(getValue(mario,"left","%")  <= b_right && getValue(mario,"left","%") >= b_right - getValue(block_left[ii],"width","%"))
         { 
-            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh")) ||
-            ( getValue(mario,"bottom","vh") < getValue(block[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh")) ||
-            ( getValue(mario,"bottom","vh")  < getValue(block[ii],"bottom","vh") + getValue(block[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block[ii],"bottom","vh")))
+            if( (getValue(mario,"bottom","vh") + getValue(mario,"height","vh") < getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block_left[ii],"bottom","vh")) ||
+            ( getValue(mario,"bottom","vh") < getValue(block_left[ii],"bottom","vh") && getValue(mario,"bottom","vh") + getValue(mario,"height","vh") > getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh")) ||
+            ( getValue(mario,"bottom","vh")  < getValue(block_left[ii],"bottom","vh") + getValue(block_left[ii],"height","vh") && getValue(mario,"bottom","vh")  >= getValue(block_left[ii],"bottom","vh")))
                 return ii;
         }
     }
@@ -153,10 +152,10 @@ function moveSide()
         {   
             pixelx += speed;  
         }
-        else pixelx += getValue(mario,"left","%") - getValue(block[check_left()],"left","%") - getValue(block[check_left()],"width","%");
-        for(var ii = 0; ii < block.length; ii++)
+        else pixelx += getValue(mario,"left","%") - getValue(block_left[check_left()],"left","%") - getValue(block_left[check_left()],"width","%");
+        for(var ii = 0; ii < block_left.length; ii++)
         {   
-            block[ii].style.left = getValue(block[ii],"left","%") + pixelx + "%";
+            block_left[ii].style.left = getValue(block_left[ii],"left","%") + pixelx + "%";
         }
         pixelx = 0;
     }
@@ -167,10 +166,10 @@ function moveSide()
         {
             pixelx += speed;
         }
-        else pixelx +=  getValue(block[check_right()],"left","%") - getValue(mario,"left","%") - getValue(mario,"width","%");
-        for(var ii = 0; ii < block.length; ii++)
+        else pixelx +=  getValue(block_left[check_right()],"left","%") - getValue(mario,"left","%") - getValue(mario,"width","%");
+        for(var ii = 0; ii < block_left.length; ii++)
         {
-           block[ii].style.left = getValue(block[ii],"left","%") - pixelx + "%";
+           block_left[ii].style.left = getValue(block_left[ii],"left","%") - pixelx + "%";
         }
         pixelx = 0;
     }
