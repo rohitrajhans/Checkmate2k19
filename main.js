@@ -160,7 +160,7 @@ function moveSide()
         pixelx = 0;
     }
 
-    else if (key_right == true) {
+    if (key_right == true) {
         // right arrow
         if(check_right() == -1)
         {
