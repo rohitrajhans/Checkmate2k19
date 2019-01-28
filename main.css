@@ -29,7 +29,7 @@ body {
     background-color: brown;
     height: 5vh;
     width: 15%;
-    transition: bottom .3s, left .4s;
+    transition: bottom 3s;
 }
 #block1{
     position: fixed;
@@ -40,4 +40,16 @@ body {
     position: fixed;
     left: 35%;
     bottom: 40vh; 
+}
+#block3 {
+    position: fixed;
+    left: 50%;
+    bottom: 22vh;
+}
+#top-line {
+    position: fixed;
+    bottom: 85vh;
+    width: 8000%;
+    background-color: lightblue;        
+    /* keep bg same as body or make this the top wall in mario*/
 }
