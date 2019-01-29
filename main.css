@@ -16,20 +16,19 @@ body {
 
 #mario {
     background-color: green;
-    height: 15vh;
+    height: 12vh;
     width: 5%;
     z-index: 500;
     position: fixed;
     bottom: 20vh;
     left: 25%;
-    transition: bottom .3s, left .4s;
+    transition: bottom .3s;
 }
 
 .support,.onscreen{
     background-color: brown;
     height: 5vh;
     width: 15%;
-    transition: bottom 3s;
 }
 #block1{
     position: fixed;
