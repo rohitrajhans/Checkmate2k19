@@ -26,7 +26,7 @@ document.addEventListener('keydown', function abc(event) {
 		}
 
 	$( document ).ready(function() {
-		var speed = 75;
+		var speed = 30;
 		var delay = $('h1').text().length * speed + speed;
 		typeEffect($('h1'), speed);
 		setTimeout(function(){
