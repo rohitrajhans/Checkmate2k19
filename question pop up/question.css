@@ -85,6 +85,11 @@ table {
 	font-size: 18px;
 	margin: .3vh;
 }
+.close #Notnot{
+	background-color: red;
+	height: 19px;
+	margin-top: .3vh;
+}
 .questionText {
 	padding: 1.5vh;
 	text-align: left;
