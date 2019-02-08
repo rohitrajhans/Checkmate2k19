@@ -155,7 +155,7 @@ function stay() {
 var ratio = 10000/3360;
 var jump_dur = 200;         //ms
 // var speed_rel = (speed/ratio)*100/3360;
-var speed_rel = 0.5;
+var speed_rel = 0.1;
 var speed = (speed_rel*3360/100)*ratio;              //pixels
 var pixelx = 0;
 var direction = 1; // not used rn
