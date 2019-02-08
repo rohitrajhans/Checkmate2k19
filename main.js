@@ -87,7 +87,7 @@ for (var ii = 0; ii < groups_svg.length; ++ii) {
     temp.bottom = temp.top - temp.height;
     rest_left.push(temp);
 }
-var pipes_svg = document.getElementsByClassName("group");
+var pipes_svg = document.getElementsByClassName("pipes");
 for (var ii = 0; ii < pipes_svg.length; ++ii) {
     var temp = {
         "left": getValuePipes(pipes_svg[ii], 'x'),
@@ -242,7 +242,6 @@ function check_right() {
             if ((mario.top < rest_left[ii].top && mario.top >= rest_left[ii].bottom) ||
                 (mario.top < rest_left[ii].bottom &&mario.top > rest_left[ii].top) ||
                 (mario.bottom < rest_left[ii].top && mario.bottom > rest_left.bottom)) {
-                console.log("stay right worked");
                 return ii;
             }
         }
@@ -287,10 +286,11 @@ function moveSide() {
         pixelx = 0;
     }
 }
+
 window.addEventListener("keydown", moveUp);
 window.addEventListener("keydown", moveDown);
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
 if (stay() != -1) {
-    transformSvgElement(mario.element,mario.left,rest_top[stay()].top);
+    transformSvgElement(mario.element,mario.left,rest_top[stay()].top + mario.height);
 } transformSvgElement(mario.element,mario.left,mario.defaultbottom);
