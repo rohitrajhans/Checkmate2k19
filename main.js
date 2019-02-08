@@ -24,8 +24,7 @@ function getValueBlock(element, property) {
             return (getValue(document.getElementById('Blocks'), 'x', '%') + getValue(document.getElementById('BlockGroup' + block_group_num), 'x', '%') + parseFloat(element.getAttribute('x'))) * 100 / 3360;
         }
         if (property == 'y') {
-            return (480 - getValue(document.getElementById('Blocks'), 'y', 'vh') + getValue(document.getElementById(`BlockGroup${block_group_num}`), 'y', 'vh') + (parseFloat(element.getAttribute('y')))) * 100 / 480;
-        // be careful, the function is recursive and relies on the height statement being the y statement
+            return (480 - getValue(document.getElementById('Blocks'), 'y', 'vh') - getValue(document.getElementById('BlockGroup' + block_group_num), 'y', 'vh') - (parseFloat(element.getAttribute('y')))) * 100 / 480;
         }
     }
 }
@@ -42,7 +41,7 @@ function getValueGroup(element, property) {
         return (getValue(document.getElementById(`Group${group_num}`), 'x', '%') + parseFloat(element.getAttribute('x'))) * 100 / 3360;
     }
     if (property == 'y') {
-        return (480 - getValue(document.getElementById(`Group${group_num}`), 'y', 'vh')- parseFloat(element.getAttribute('y'))) * 100 / 480;
+        return (480 - getValue(document.getElementById(`Group${group_num}`), 'y', 'vh') - parseFloat(element.getAttribute('y'))) * 100 / 480;
     }
 }
 
@@ -156,7 +155,7 @@ function stay() {
 var ratio = 10000/3360;
 var jump_dur = 200;         //ms
 // var speed_rel = (speed/ratio)*100/3360;
-var speed_rel = 0.1;
+var speed_rel = 0.5;
 var speed = (speed_rel*3360/100)*ratio;              //pixels
 var pixelx = 0;
 var direction = 1; // not used rn
@@ -241,7 +240,7 @@ function check_right() {
         if (mario.right > b_left && mario.right < (b_left + rest_left[ii].width)) {
             if ((mario.top < rest_left[ii].top && mario.top >= rest_left[ii].bottom) ||
                 (mario.top < rest_left[ii].bottom &&mario.top > rest_left[ii].top) ||
-                (mario.bottom < rest_left[ii].top && mario.bottom > rest_left.bottom)) {
+                (mario.bottom < rest_left[ii].top && mario.bottom >= rest_left.bottom)) {
                 return ii;
             }
         }
@@ -286,6 +285,12 @@ function moveSide() {
         pixelx = 0;
     }
 }
+var block_group_num = 1
+console.log(rest_left[44].top);
+console.log(rest_left[44].bottom);
+console.log(mario.top);
+console.log(mario.bottom);
+console.log(mario.top > rest_left[44].bottom);
 
 window.addEventListener("keydown", moveUp);
 window.addEventListener("keydown", moveDown);
