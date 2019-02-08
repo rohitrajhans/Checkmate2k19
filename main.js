@@ -134,7 +134,7 @@ for (var ii = 0; ii < pipes_svg.length; ++ii) {
     rest_left.push(temp);
 }
 
-rest_left.sort(function(a, b) {
+rest_left.sort(function(a, b) {     // left to right then top to bottom
     if(a.left == b.left){return b.top - a.top;}
     return a.left - b.left;
 }) // left to right
@@ -142,7 +142,7 @@ rest_left.sort(function(a, b) {
 for (var jj = 0; jj < rest_left.length; ++jj) {
     rest_top.push(rest_left[jj]);
 }
-rest_top.sort(function(a, b) {
+rest_top.sort(function(a, b) {      // top to bottom then left to right
     if(b.top == a.top){return a.left - b.left;}
     else return b.top - a.top;
 }) // top to bottom
@@ -166,7 +166,6 @@ function updateMario(){
 var game = document.getElementById("game");         // game is the entire svg wrapper
 
 
-/***************************************************************/
 function setSvgAttribute(element, attributeName, attributeValue) {
     element.setAttribute(attributeName, attributeValue);
 }
@@ -188,18 +187,23 @@ function stay() {
     }
     return -1;
 }
+/***************************************************************/
 
-var ratio = 10000/3360;
 var jump_dur = 200;         //ms
 var speed_rel = 0.1;
+var jump_height = 15;     //percentage of 480
+
+var ratio = 10000/3360;
 var speed = (speed_rel*3360/100)*ratio;              //pixels
 var pixelx = 0;
 var direction = 1; // not used rn
 var key_left = false;
 var key_right = false;
 var jumping = false;
-var jump_height = 15;     //percentage of 480
 
+
+
+/***************************************************************/
 function handleKeyDown(event) {
     if (event.keyCode == 37)
         key_left = true;
@@ -225,7 +229,7 @@ function onb() { //checks if on block and moves char down if reqd
 var falling;
 function moveUp(e) {
     e = e || window.event;
-    if (e.keyCode == '38') {
+    if (e.keyCode == '38' && key_left != true && key_right!=true) {
         window.removeEventListener("keydown", moveUp);
         clearTimeout(falling);
         flag_up = false;
@@ -246,6 +250,71 @@ function moveUp(e) {
         }
         if (flag == 0) {
             transformSvgElement(mario.element,mario.left,mario.bottom + jump_height);
+        };
+        setTimeout(function() {
+            window.addEventListener("keydown", moveUp);
+            flag_up = true
+        }, (2 * jump_dur) - (jump_dur / 20));
+    }
+    if (e.keyCode == '38' && key_left == true && key_right!=true) {
+        window.removeEventListener("keydown", moveUp);
+        clearTimeout(falling);
+        flag_up = false;
+        // up arrow
+        var flag = 0;
+        jump_start: {
+            for (var ii = rest_top.length - 1; ii > -1; --ii) //ascending order
+            {
+                if (mario.left < rest_top[ii].right && mario.right > rest_top[ii].left){
+                    if(rest_top[ii].bottom - mario.top <= jump_height && mario.top < rest_top[ii].bottom)
+                    {   
+                        flag = 1;
+                        pixelx = speed_rel*jump_dur/50;
+                        transformSvgElement(mario.element,mario.left - pixelx,rest_top[ii].bottom);
+                        game.style.left = (parseFloat(window.getComputedStyle(document.getElementById("game")).getPropertyValue('left')) + ((pixelx*3360/100)*ratio)) + 'px';             // in pixels here
+        
+                        break jump_start;
+                    }
+                }
+            }
+        }
+        if (flag == 0) {
+            pixelx = speed_rel*jump_dur/100;
+            game.style.left = (parseFloat(window.getComputedStyle(document.getElementById("game")).getPropertyValue('left')) + ((pixelx*3360/100)*ratio)) + 'px';             // in pixels here
+            transformSvgElement(mario.element,mario.left - speed_rel*jump_dur/100,mario.bottom + jump_height);
+        };
+        setTimeout(function() {
+            window.addEventListener("keydown", moveUp);
+            flag_up = true
+        }, (2 * jump_dur) - (jump_dur / 20));
+    }
+    if (e.keyCode == '38' && key_left != true && key_right ==true) {
+        window.removeEventListener("keydown", moveUp);
+        clearTimeout(falling);
+        flag_up = false;
+        // up arrow
+        var flag = 0;
+        jump_start: {
+            for (var ii = rest_top.length - 1; ii > -1; --ii) //ascending order
+            {
+                if (mario.left < rest_top[ii].right && mario.right > rest_top[ii].left){
+                    if(rest_top[ii].bottom - mario.top <= jump_height && mario.top < rest_top[ii].bottom)
+                    {   
+                        flag = 1;
+                        pixelx = speed_rel*jump_dur/100;
+                        transformSvgElement(mario.element,mario.left + pixelx,rest_top[ii].bottom);
+                        game.style.left = (parseFloat(window.getComputedStyle(document.getElementById("game")).getPropertyValue('left')) - ((pixelx*3360/100)*ratio)) + 'px';             // in pixels here
+        
+                        break jump_start;
+                    }
+                }
+            }
+        }
+        if (flag == 0) {
+            pixelx = speed_rel*jump_dur/100;
+            transformSvgElement(mario.element,mario.left + speed_rel*jump_dur/100,mario.bottom + jump_height);
+            game.style.left = (parseFloat(window.getComputedStyle(document.getElementById("game")).getPropertyValue('left')) - ((pixelx*3360/100)*ratio)) + 'px';             // in pixels here
+        
         };
         setTimeout(function() {
             window.addEventListener("keydown", moveUp);
@@ -323,6 +392,6 @@ function moveSide() {
 }
 
 window.addEventListener("keydown", moveUp);
-window.addEventListener("keydown", moveDown);
+// window.addEventListener("keydown", moveDown);
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
