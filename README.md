@@ -1,4 +1,4 @@
 # Checkmate2k19
 
-[Login](login.html)
-[Register](reg.html)
+[Login](./login_and_reg/login.html)
+[Register](./login_andreg/reg.html)
