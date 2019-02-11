@@ -77,3 +77,15 @@ button:hover{
 	background: linear-gradient(grey,black);
 	color: white;
 }
+a{
+	font-family: Arial;
+	color: white;
+	font-size: 20px;
+	margin-left: 90vw;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a:hover{
+	color:red;
+}
